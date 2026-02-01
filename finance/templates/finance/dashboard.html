@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Financeiro Açaí</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    th, td { border-bottom: 1px solid #eee; padding: 8px; }
+    .muted { color: #777; font-size: 12px; }
+    a { text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<h1>Financeiro do Açaí Carandá 💜</h1>
+<div class="muted">Período: {{ month_start }} até {{ today }}</div>
+
+<div class="cards">
+  <div class="card">
+    <div class="muted">Receitas</div>
+    <h2>R$ {{ income_total }}</h2>
+  </div>
+  <div class="card">
+    <div class="muted">Despesas</div>
+    <h2>R$ {{ expense_total }}</h2>
+  </div>
+  <div class="card">
+    <div class="muted">Saldo</div>
+    <h2>R$ {{ balance }}</h2>
+  </div>
+</div>
+
+<p>
+  <a href="/admin/">Abrir Admin</a> |
+  <a href="/export/csv/">Exportar CSV</a>
+</p>
+
+<h3>Totais por categoria</h3>
+<table>
+  <tr>
+    <th>Tipo</th>
+    <th>Categoria</th>
+    <th>Total</th>
+  </tr>
+  {% for c in by_category %}
+  <tr>
+    <td>{{ c.category__kind }}</td>
+    <td>{{ c.category__name }}</td>
+    <td>R$ {{ c.total }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h3>Últimos lançamentos</h3>
+<table>
+  <tr>
+    <th>Data</th>
+    <th>Descrição</th>
+    <th>Categoria</th>
+    <th>Valor</th>
+    <th>Método</th>
+  </tr>
+  {% for t in transactions %}
+  <tr>
+    <td>{{ t.date }}</td>
+    <td>{{ t.description }}</td>
+    <td>{{ t.category.name }}</td>
+    <td>R$ {{ t.amount }}</td>
+    <td>{{ t.get_method_display }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+</body>
+</html>
