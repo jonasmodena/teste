@@ -27,11 +27,11 @@ SECRET_KEY = config("SECRET_KEY", default=SECRET_KEY)  # usa a sua local se não
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=True, cast=bool)
 
-ALLOWED_HOSTS = [config(
+ALLOWED_HOSTS = config(
     "ALLOWED_HOSTS",
     default="127.0.0.1,localhost",
     cast=lambda v: [s.strip() for s in v.split(",")]
-)]
+)
 
 
 # Application definition
@@ -84,7 +84,7 @@ DATABASES = {
     "default": dj_database_url.config(
         default="sqlite:///db.sqlite3",
         conn_max_age=600,
-        ssl_require=True,   # importante em bancos cloud
+        ssl_require=True,
     )
 }
 
